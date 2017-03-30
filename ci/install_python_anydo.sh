@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+set -x
+set -e
 
-git clone git@github.com:dustinbrown/python-anydo.git
+git clone --depth=50 --branch=master git@github.com:dustinbrown/python-anydo.git dustinbrown/python-anydo
+
+cd dustinbrown/python-anydo
 pip install .
