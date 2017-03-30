@@ -6,8 +6,8 @@ python:
   - 3.5
   - 3.6
 install:
-  - ./ci/install_python_anydo.sh
-  - pip install tox-travis coveralls
+  - git clone --depth=50 --branch=master https://github.com/dustinbrown/python-anydo.git dustinbrown/python-anydo
+  - pip install dustinbrown/python-anydo tox-travis coveralls
 script:
   - tox
 after_success:
