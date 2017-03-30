@@ -14,6 +14,7 @@ current_time_in_epoch = int(time.time()) * 1000.0
 
 def main():
     print('it works')
+    return True
 
 
 # def get_due_tasks():
