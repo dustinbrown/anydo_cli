@@ -2,6 +2,8 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test
 import sys
 
+__version__ = '0.0.1'
+
 
 class Tox(test):
     def finalize_options(self):
@@ -15,16 +17,16 @@ class Tox(test):
         sys.exit(errno)
 
 
-setup(name="anydo_cli",
-      version="0.0.1",
-      description="cli for python-anydo",
-      license="MIT",
-      install_requires=["python-anydo"],
-      author="Dustin Brown",
-      author_email="dustinjamesbrown@gmail.com",
-      url="https://github.com/dustinbrown/anydo_cli",
+setup(name='anydo_cli',
+      version=__version__,
+      description='cli for python-anydo',
+      license='MIT',
+      install_requires=['python-anydo'],
+      author='Dustin Brown',
+      author_email='dustinjamesbrown@gmail.com',
+      url='https://github.com/dustinbrown/anydo_cli',
       packages=find_packages(),
-      keywords="anydo",
+      keywords='anydo',
       tests_require=['tox-travis', 'pycodestyle'],
       cmdclass={'test': Tox},
       zip_safe=True,

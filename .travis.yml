@@ -16,5 +16,7 @@ install:
 script:
   - tox
 after_success:
+  - source /home/travis/build/dustinbrown/anydo_cli/.tox/py36/bin/activate
+  - pip freeze
   - python ci/increment_version.py
 #  coveralls --verbose
