@@ -1,15 +1,20 @@
 sudo: false
 language: python
+env:
+  global:
+  - ENCRYPTION_LABEL: "3427672cda50"
 python:
   - 3.3
   - 3.4
   - 3.5
   - 3.6
+before_install: openssl aes-256-cbc -K $encrypted_3427672cda50_key -iv $encrypted_3427672cda50_iv -in ci/anydo_cli_rsa.enc -out anydo_cli_rsa -d
 install:
   - git clone --depth=50 --branch=master https://github.com/dustinbrown/python-anydo.git ~/dustinbrown/python-anydo
   - pip install tox-travis
 #  - pip install tox-travis coveralls
 script:
   - tox
-#after_success:
+after_success:
+  - python ci/increment_version.py
 #  coveralls --verbose
