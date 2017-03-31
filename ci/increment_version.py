@@ -1,8 +1,13 @@
 import os
 import pkg_resources
+from ci.travis_after_all import TravisAfterAll
 
 
 if __name__ == "__main__":
+    travis_after_all = TravisAfterAll()
+    if not travis_after_all.can_publish():
+        raise SystemExit  # only one build can publish
+
     version = pkg_resources.get_distribution('anydo_cli').version
     split_version = version.split('.')
     try:
@@ -14,6 +19,8 @@ if __name__ == "__main__":
 
     os.system("sed -i \"s/__version__ = '[0-9.]\+'/__version__ = '{}'/\" setup.py"
               .format(new_version))
+    os.system('git config --global user.email "automated@travisci.com"')
+    os.system('git config --global user.name "Travis CI"')
     os.system("git add -u")
     os.system("git commit -m '[ci skip] Increase version to {}'"
               .format(new_version))
