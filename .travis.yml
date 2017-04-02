@@ -2,14 +2,14 @@ sudo: false
 language: python
 env:
   global:
-    - ENCRYPTION_LABEL: 3427672cda50
+    - ENCRYPTION_LABEL: b551ce6ab0f8
     - secure: E4GUWdJufkj5MWXYC/0HHvfK+IyP0Wt7gu1VyjqaCj/VOnK4Pv2jGGf+L2P8yF0ilR23invSePD4cItwuTk2Tx5Ega9lyVBPxAbKx/xjRC9pvYRIyGWl2eagc1nDY2FGJN78WaukQnWzitkiaXvh1z9xZaZddNuVkqhdJSddzf0yvamB5ihni89ca73Ld54DodH+WSrQhw7u7piG3lItI5lGVK6FkLO6XMJY9H25yJIj8HUiTLolbxdFmAxOY6Sv/XXPRfXDoR9d49SVr6h4udhLyrI7ClvvDjti6eduNZfmpVRNXluWTItW7VTbGTr4N00QHH52xOJW4GFfTb+sXMQToTUJz8AqTSIH1UDZ3uQGaVmGb23lvyoNHb3kE3HdLDQvVq2Da3s6Zbroi3eZE14uW/bSLSjOcT/x0xXTLf0cIhju00ulO6DEL4sxNYEDuSEf1gLy/Z3V9FERFRjtiAS25x4ATnG8v8qRbWSMy0ISdLA+VFLTsa/uFoTQwjUG9uVL5uPTGO7zbdj/rDfQMooMaiKMWvpoyTMBUsD/ysv/pkg2UxYbPvSBW0J9I7qr5EiTopeQH84cmMAWNc1wnZxW1aammmaUDUa9DlbyfFYpn5b44jV32ui/DZDGpR3HDwftNVDyUMOiByEnaPf8Q/4YBsN7zi7YxLWk3ntlYII=
 python:
   - 3.3
   - 3.4
   - 3.5
   - 3.6
-before_install: openssl aes-256-cbc -K $encrypted_3427672cda50_key -iv $encrypted_3427672cda50_iv -in ci/anydo_cli_rsa.enc -out anydo_cli_rsa -d
+before_install: openssl aes-256-cbc -K $encrypted_b551ce6ab0f8_key -iv $encrypted_b551ce6ab0f8_iv -in ci/anydo_cli_rsa.enc -out anydo_cli_rsa -d
 install:
   - git clone --depth=50 --branch=master https://github.com/dustinbrown/python-anydo.git ~/dustinbrown/python-anydo
   - pip install tox-travis

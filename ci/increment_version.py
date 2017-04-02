@@ -2,6 +2,7 @@ import os
 import pkg_resources
 import sys
 import logging
+from git import Repo
 
 from ci.travis_after_all import TravisAfterAll
 
@@ -11,10 +12,11 @@ log.setLevel(logging.INFO)
 
 BRANCHES_ALLOWED_TO_AUTO_INCREMENT = ['master']
 PROJECT_NAME = sys.argv[1]
+TRAVIS_BRANCH = os.getenv('TRAVIS_BRANCH')
 
 
 def allowed_branch() -> bool:
-    return os.getenv('TRAVIS_BRANCH') in BRANCHES_ALLOWED_TO_AUTO_INCREMENT
+    return TRAVIS_BRANCH in BRANCHES_ALLOWED_TO_AUTO_INCREMENT
 
 
 def assert_this_build_can_auto_increment():
@@ -48,15 +50,23 @@ def identify_version() -> str:
 
 
 def commit_and_push_new_version(new_version: str):
-    os.system('git config --global user.email "automated@travisci.com"')
-    os.system('git config --global user.name "Travis CI"')
-    os.system("git add -u")
-    os.system("git commit -m '[ci skip] Increase version to {}'"
-              .format(new_version))
-    os.system('eval `ssh-agent -s`')
-    os.system('ssh-add {}_rsa'.format(PROJECT_NAME))
-    os.system("git push")
+    log.info('preparing git')
+    repo = Repo(os.getenv('TRAVIS_BUILD_DIR'))
+    repo.git.remote('add', 'ssh_origin', 'git@github.com:dustinbrown/anydo_cli.git')
+    repo.git.config('--global', 'user.email', 'automated@travisci.com')
+    repo.git.config('--global', 'user.name', 'Travis CI,')
+    repo.git.config('--global', 'push.default', 'simple')
+    repo.git.checkout(TRAVIS_BRANCH)
+    repo.git.add('-u')
+    repo.git.commit('-m', '[ci skip] Increase version to {}'.format(new_version))
+    log.info('committing new version to local git')
 
+    rsa_key_name = '{}_rsa'.format(PROJECT_NAME)
+    os.system('chmod 600 {}'.format(rsa_key_name))
+    ssh_cmd = 'ssh -i {}'.format(rsa_key_name)
+    with repo.git.custom_environment(GIT_SSH_COMMAND=ssh_cmd):
+        repo.git.push('ssh_origin', TRAVIS_BRANCH)
+        log.info('push changes to origin')
 
 if __name__ == "__main__":
     try:
@@ -64,4 +74,5 @@ if __name__ == "__main__":
         version = set_version()
         commit_and_push_new_version(version)
     except Exception as e:
+        log.error("An error has occurred!", e)
         sys.exit(2)
