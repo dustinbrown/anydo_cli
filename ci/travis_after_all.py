@@ -3,6 +3,7 @@ import json
 import os
 import time
 import logging
+from typing import List
 
 import requests
 
@@ -47,7 +48,7 @@ class TravisAfterAll:
         matrix_job = self.get_matrix_snapshot()[-1]
         return self.job_number == matrix_job.number
 
-    def get_matrix_snapshot(self) -> list[MatrixElement]:
+    def get_matrix_snapshot(self) -> List[MatrixElement]:
         """
         :return: Matrix List
         """
@@ -79,7 +80,7 @@ class TravisAfterAll:
             log.error("Unable to wait fo all builds to finish", e)
             return False
 
-    def wait_for_all_builds_finish(self) -> list[MatrixElement]:
+    def wait_for_all_builds_finish(self) -> List[MatrixElement]:
         snapshot = []
         finished = False
         while not finished:
