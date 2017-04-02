@@ -31,7 +31,6 @@ class TravisAfterAll:
         self.build_id = os.getenv('TRAVIS_BUILD_ID')
         self.polling_interval = int(os.getenv('POLLING_INTERVAL', '5'))
         gh_token = os.getenv('GITHUB_TOKEN')
-        print(gh_token)
         self.travis_token = TravisAfterAll.get_travis_token(gh_token)
 
         if not self.is_leader():
@@ -66,8 +65,7 @@ class TravisAfterAll:
 
         req = requests.post("{0}/auth/github".format(TravisAfterAll.TRAVIS_ENTRY),
                             data=json.dumps(data), headers=headers)
-        print(req.text)
-        print(req.json())
+
         travis_token = req.json().get('access_token')
 
         return travis_token
@@ -86,7 +84,7 @@ class TravisAfterAll:
         finished = False
         while not finished:
             snapshot = self.get_matrix_snapshot()
-            finished = all(job.is_finished for job in snapshot)
+            finished = all(job.is_finished for job in snapshot if job.name != self.job_number)
             time.sleep(self.polling_interval)
             log.info("Waiting for other builds to finish...")
 
