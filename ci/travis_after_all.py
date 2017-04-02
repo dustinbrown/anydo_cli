@@ -76,9 +76,8 @@ class TravisAfterAll:
             final_snapshot = self.wait_for_all_builds_finish()
             all_successful = all(job.is_succeeded for job in final_snapshot)
             if not all_successful:
-                log.warning("Final Results: {0}".format([
-                    (job.number, job.is_succeeded) for job in final_snapshot
-                    if job.number != self.job_number])
+                log.warning("Final Results: {0}".format(
+                    [(job.number, job.is_succeeded) for job in final_snapshot])
                 )
             return all_successful
         except Exception as e:
@@ -86,15 +85,15 @@ class TravisAfterAll:
             return False
 
     def wait_for_all_builds_finish(self) -> List[MatrixElement]:
-        snapshot = []
+        job_list = []
         finished = False
         while not finished:
-            snapshot = self.get_matrix_snapshot()
-            finished = all(job.is_finished for job in snapshot if job.number != self.job_number)
+            job_list = [job for job in self.get_matrix_snapshot() if job.number != self.job_number]
+            finished = all(job.is_finished for job in job_list)
             time.sleep(self.polling_interval)
             log.info("Waiting for other builds to finish...")
 
-        return snapshot
+        return job_list
 
 if __name__ == '__main__':
     pass
