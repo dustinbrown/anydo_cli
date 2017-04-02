@@ -18,5 +18,4 @@ script:
 after_success:
   - pip install /home/travis/dustinbrown/python-anydo
   - pip install /home/travis/build/dustinbrown/anydo_cli
-  - pip freeze
-  - python ci/increment_version.py
+  - python ci/increment_version.py anydo_cli
