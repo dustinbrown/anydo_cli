@@ -74,8 +74,13 @@ class TravisAfterAll:
     def others_are_successful(self) -> bool:
         try:
             final_snapshot = self.wait_for_all_builds_finish()
-            log.info("Final Results: {0}".format([(e.number, e.is_succeeded) for e in final_snapshot]))
-            return all(job.is_succeeded for job in final_snapshot)
+            all_successful = all(job.is_succeeded for job in final_snapshot)
+            if not all_successful:
+                log.warning("Final Results: {0}".format([
+                    (job.number, job.is_succeeded) for job in final_snapshot
+                    if job.number != self.job_number])
+                )
+            return all_successful
         except Exception as e:
             log.error("Unable to wait fo all builds to finish", e)
             return False

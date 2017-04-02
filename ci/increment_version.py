@@ -19,6 +19,7 @@ def allowed_branch() -> bool:
 
 def assert_this_build_can_auto_increment():
     if not allowed_branch():
+        log.info('Not allowed branched, branch set to {}'.format(os.getenv('TRAVIS_BRANCH')))
         raise SystemExit
     travis_after_all = TravisAfterAll()
     if not travis_after_all.can_publish():
@@ -27,6 +28,7 @@ def assert_this_build_can_auto_increment():
 
 def set_version() -> str:
     new_version = identify_version()
+    log.info('setting new version to: {}'.format(new_version))
     os.system("sed -i \"s/__version__ = '[0-9.]\+'/__version__ = '{}'/\" setup.py"
               .format(new_version))
 
