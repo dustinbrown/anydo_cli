@@ -47,7 +47,7 @@ class TravisAfterAll:
         matrix_job = self.get_matrix_snapshot()[-1]
         return self.job_number == matrix_job.number
 
-    def get_matrix_snapshot(self) -> list:
+    def get_matrix_snapshot(self) -> list[MatrixElement]:
         """
         :return: Matrix List
         """
@@ -79,12 +79,12 @@ class TravisAfterAll:
             log.error("Unable to wait fo all builds to finish", e)
             return False
 
-    def wait_for_all_builds_finish(self) -> list:
+    def wait_for_all_builds_finish(self) -> list[MatrixElement]:
         snapshot = []
         finished = False
         while not finished:
             snapshot = self.get_matrix_snapshot()
-            finished = all(job.is_finished for job in snapshot if job.name != self.job_number)
+            finished = all(job.is_finished for job in snapshot if job.number != self.job_number)
             time.sleep(self.polling_interval)
             log.info("Waiting for other builds to finish...")
 
