@@ -56,7 +56,8 @@ def commit_and_push_new_version(new_version: str):
     repo.git.config('--global', 'user.email', 'automated@travisci.com')
     repo.git.config('--global', 'user.name', 'Travis CI,')
     repo.git.config('--global', 'push.default', 'simple')
-    repo.git.checkout(TRAVIS_BRANCH)
+    # repo.git.checkout(TRAVIS_BRANCH)
+    repo.heads.master.checkout()
     repo.git.add('-u')
     repo.git.commit('-m', '[ci skip] Increase version to {}'.format(new_version))
     log.info('committing new version to local git')
@@ -64,8 +65,8 @@ def commit_and_push_new_version(new_version: str):
     rsa_key_name = '{}_rsa'.format(PROJECT_NAME)
     os.system('chmod 600 {}'.format(rsa_key_name))
     ssh_cmd = 'ssh -i {}'.format(rsa_key_name)
-    with repo.git.custom_environment(GIT_SSH_COMMAND=ssh_cmd):
-        repo.git.push('ssh_origin', TRAVIS_BRANCH)
+    with repo.git.custom_environment(GIT_SSH=ssh_cmd):
+        repo.git.push('-u', 'ssh_origin', 'master')
         log.info('push changes to origin')
 
 if __name__ == "__main__":

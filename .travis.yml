@@ -16,6 +16,8 @@ install:
 script:
   - tox
 after_success:
+  - ls
+  - ls ci/
   - pip install /home/travis/dustinbrown/python-anydo
   - pip install /home/travis/build/dustinbrown/anydo_cli
   - python ci/increment_version.py anydo_cli
