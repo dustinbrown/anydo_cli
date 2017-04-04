@@ -9,14 +9,13 @@ python:
   - 3.4
   - 3.5
   - 3.6
-before_install: openssl aes-256-cbc -K $encrypted_b551ce6ab0f8_key -iv $encrypted_b551ce6ab0f8_iv -in ci/anydo_cli_rsa.enc -out anydo_cli_rsa -d
+before_install: openssl aes-256-cbc -K $encrypted_b551ce6ab0f8_key -iv $encrypted_b551ce6ab0f8_iv -in ci/anydo_cli_rsa.enc -out ci/anydo_cli_rsa -d
 install:
   - git clone --depth=50 --branch=master https://github.com/dustinbrown/python-anydo.git ~/dustinbrown/python-anydo
   - pip install tox-travis
 script:
   - tox
 after_success:
-  - ls
   - ls ci/
   - pip install /home/travis/dustinbrown/python-anydo
   - pip install /home/travis/build/dustinbrown/anydo_cli
