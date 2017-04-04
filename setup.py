@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test
 import sys
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 class Tox(test):
