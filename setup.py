@@ -21,17 +21,17 @@ setup(name='anydo_cli',
       version=__version__,
       description='cli for python-anydo',
       license='MIT',
-      install_requires=['python-anydo', 'gitpython'],
+      install_requires=['python-anydo', 'gitpython', 'click', 'pyyaml'],
       author='Dustin Brown',
       author_email='dustinjamesbrown@gmail.com',
       url='https://github.com/dustinbrown/anydo_cli',
       packages=find_packages(),
       keywords='anydo',
-      tests_require=['tox-travis', 'pycodestyle'],
+      tests_require=['tox-travis', 'pycodestyle', 'click', 'mock'],
       cmdclass={'test': Tox},
       zip_safe=True,
       entry_points={
           'console_scripts': [
-              'anydo = anydo_cli.commands.cli:main'
+              'anydo = anydo_cli.commands.cli:entry_point'
           ]
       })
