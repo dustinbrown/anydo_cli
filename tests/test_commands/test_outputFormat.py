@@ -1,12 +1,12 @@
-import unittest
+import pytest
 import mock
 from anydo_cli.lib.outputFormat import OutputFormat, print_with_format
 
 
-class TestOutputFormat(unittest.TestCase):
+class TestOutputFormat(object):
     def test_valid_formats_returns_correct_list(self):
         expected_list = ['json', 'yaml']
-        self.assertListEqual(expected_list, OutputFormat.valid_formats())
+        assert expected_list == OutputFormat.valid_formats()
 
     @mock.patch('anydo_cli.lib.outputFormat.json.dumps')
     @mock.patch('anydo_cli.lib.outputFormat.yaml.dump')

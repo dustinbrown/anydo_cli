@@ -6,7 +6,7 @@ from typing import KeysView
 from anydo_cli.lib.dynamic_commands import InvalidCommand, MyCLI
 
 
-class TestCli():
+class TestCli(object):
     @pytest.fixture(scope="class")
     def cli(self) -> MyCLI:
         return MyCLI(help="testing")
