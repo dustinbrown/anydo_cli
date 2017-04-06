@@ -13,7 +13,7 @@ class TestOutputFormat(object):
     @mock.patch('anydo_cli.lib.outputFormat.print')
     def test_print_with_format_prints_json(self, print, dump, dumps):
         expected_thing_to_print = {'test': 'test'}
-        print_with_format(expected_thing_to_print)
+        print_with_format(expected_thing_to_print, OutputFormat.JSON)
         dumps.assert_called_once_with(expected_thing_to_print)
         dump.assert_not_called()
 

@@ -49,6 +49,5 @@ class Api(object):
             return {}
         else:
             with open(config_file) as fd:
-                config_file_contents = fd.readlines()
-        return yaml.load(config_file_contents)
+                return yaml.safe_load(fd)
 

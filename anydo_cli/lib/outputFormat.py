@@ -12,7 +12,7 @@ class OutputFormat(object):
         return [OutputFormat.JSON, OutputFormat.YAML]
 
 
-def print_with_format(thing_to_print, output_format=OutputFormat.JSON):
+def print_with_format(thing_to_print, output_format):
     if output_format == OutputFormat.JSON:
         print(json.dumps(thing_to_print))
     elif output_format == OutputFormat.YAML:
