@@ -8,8 +8,11 @@ python 3.5+
 ### create tasks
 `$ anydo create 'drink water'`
 
+### list all tasks
+`$ anydo list tasks`
+
 ### list due tasks 
-`$ anydo due_tasks`
+`$ anydo list due_tasks`
 
 ### snooze due task
 `$ anydo snooze 'drink water'`
