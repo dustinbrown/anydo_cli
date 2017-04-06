@@ -1,8 +1,9 @@
+import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test
 import sys
 
-__version__ = '0.0.2'
+from anydo_cli.commands.cli import __version__
 
 
 class Tox(test):
