@@ -1,7 +1,19 @@
-import unittest
-import anydo_cli.commands.cli
+import pytest
+from click.testing import CliRunner
+from anydo_cli.commands.cli import entry_point, __version__
 
 
-class TestCli(unittest.TestCase):
-    def test_main(self):
-        self.assertTrue(anydo_cli.commands.cli.main())
+class TestCli(object):
+    def test_entrypoint(self):
+        runner = CliRunner()
+        result = runner.invoke(entry_point)
+        assert result.output != ''
+
+    # not in love with having to supply a subcommand. http://click.pocoo.org/5/testing/
+    @pytest.mark.parametrize('args, expected_output', [
+        (['--version', 'list'], __version__),
+    ])
+    def test_correct_version_is_printed(self, args, expected_output):
+        runner = CliRunner()
+        result = runner.invoke(entry_point, args=args)
+        assert expected_output == result.output.strip()

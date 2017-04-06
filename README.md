@@ -11,3 +11,13 @@
 
 ### snooze due task
 `$ anydo snooze 'drink water'`
+
+## Troubleshooting
+### Running tests
+Since click and python3 don't play nice, set the following to your local. This is an example for US. More information can be found at http://click.pocoo.org/5/python3/#python3-surrogates
+
+```
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+```
+
