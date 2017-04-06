@@ -5,6 +5,7 @@ from anydo_cli.lib.api import Api
 from anydo_cli.lib.outputFormat import OutputFormat, print_with_format
 
 
+# noinspection PyShadowingBuiltins
 @click.group()
 @click.option('-o', '--output-format', type=click.Choice(OutputFormat.valid_formats()),
               help='Type of output format', default=OutputFormat.JSON)

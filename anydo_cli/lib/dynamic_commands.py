@@ -1,6 +1,5 @@
 import click
 import os
-from typing import KeysView
 
 import anydo_cli
 
@@ -13,8 +12,8 @@ class MyCLI(click.MultiCommand):
     def __init__(self, *args, **kwargs):
         super(MyCLI, self).__init__(*args, **kwargs)
 
-    def list_commands(self, ctx) -> KeysView:
-        rv = MyCLI._gather_commands().keys()
+    def list_commands(self, ctx) -> list:
+        rv = list(MyCLI._gather_commands().keys())
         return rv
 
     @staticmethod

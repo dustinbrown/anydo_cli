@@ -1,7 +1,6 @@
 import os
 import sys
 import yaml
-from typing import Union
 import logging
 from anydo.api import AnyDoAPI
 
@@ -43,7 +42,7 @@ class Api(object):
                                  'in ~/.anydo_cli.yaml')
 
     @staticmethod
-    def load_config_file() -> Union:
+    def load_config_file():
         config_file = os.path.join(os.path.expanduser('~'), '.anydo_cli.yaml')
         if not os.path.isfile(config_file):
             return {}

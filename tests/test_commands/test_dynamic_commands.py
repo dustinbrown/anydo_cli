@@ -1,7 +1,6 @@
 import click
 import mock
 import pytest
-from typing import KeysView
 
 from anydo_cli.lib.dynamic_commands import InvalidCommand, MyCLI
 
@@ -12,7 +11,7 @@ class TestCli(object):
         return MyCLI(help="testing")
 
     def test_list_commands(self, cli):
-        assert isinstance(cli.list_commands({}), KeysView)
+        assert isinstance(cli.list_commands({}), list)
         assert len(cli.list_commands({})) > 0
 
     @mock.patch('anydo_cli.lib.dynamic_commands.os.listdir')
