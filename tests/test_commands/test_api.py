@@ -16,41 +16,41 @@ def clear_environment_variables():
     if 'ANYDO_PASSWORD' in os.environ.keys():
         del os.environ['ANYDO_PASSWORD']
 
-# @pytest.fixture()
-# def mock_open():
-#     m = unittest.mock.mock_open(read_data='---\nANYDO_USERNAME: username\n')
-#     with mock.patch('anydo_cli.lib.api.open', m):
-#         yield
+
+@pytest.fixture()
+def mock_open():
+    m = unittest.mock.mock_open(read_data='---\nANYDO_USERNAME: username\n')
+    with mock.patch('anydo_cli.lib.api.open', m):
+        yield
 
 
-@pytest.mark.usefixtures('clear_environment_variables')
+@pytest.mark.usefixtures('clear_environment_variables', 'mock_open')
 class TestCli(object):
     fake_username = 'fake_username'
     fake_password = 'fake_password'
 
     # noinspection PyTypeChecker
-    def test_no_username_set_throws_exception(self):
-        m = unittest.mock.mock_open()
+    @mock.patch('anydo_cli.lib.api.os.path.isfile')
+    def test_no_username_set_throws_exception(self, isfile):
+        isfile.return_value = False
         with pytest.raises(PropertyNotSet):
-            with mock.patch('anydo_cli.lib.api.open', m):
-                os.environ['ANYDO_PASSWORD'] = self.fake_password
-                api = Api()
+            os.environ['ANYDO_PASSWORD'] = self.fake_password
+            Api()
 
     # noinspection PyTypeChecker
-    def test_no_password_set_throws_exception(self):
-        m = unittest.mock.mock_open()
+    @mock.patch('anydo_cli.lib.api.os.path.isfile')
+    def test_no_password_set_throws_exception(self, isfile):
+        isfile.return_value = False
         with pytest.raises(PropertyNotSet):
-            with mock.patch('anydo_cli.lib.api.open', m):
-                os.environ['ANYDO_USERNAME'] = self.fake_username
-                api = Api()
+            os.environ['ANYDO_USERNAME'] = self.fake_username
+            Api()
 
-    def test_username_and_password_from_environment_variable_is_correct(self):
-        m = unittest.mock.mock_open()
-        with mock.patch('anydo_cli.lib.api.open', m):
-            self.set_environment_credentials()
-            api = Api()
-
+    @mock.patch('anydo_cli.lib.api.os.path.isfile')
+    def test_username_and_password_from_environment_variable_is_correct(self, isfile):
+        isfile.return_value = False
+        self.set_environment_credentials()
         api = Api()
+
         assert api.username == self.fake_username
         assert api.password == self.fake_password
 
@@ -60,12 +60,12 @@ class TestCli(object):
         isfile.return_value = True
 
         expected_config = {'ANYDO_USERNAME': 'username'}
-        m = unittest.mock.mock_open(read_data='---\nANYDO_USERNAME: username\n')
-        with mock.patch('anydo_cli.lib.api.open', m):
-            api = Api()
-            assert api.cfg == expected_config
+        api = Api()
+        assert api.cfg == expected_config
 
-    def test_connect_returns_correct_api_object(self):
+    @mock.patch('anydo_cli.lib.api.os.path.isfile')
+    def test_connect_returns_correct_api_object(self, isfile):
+        isfile.return_value = False
         self.set_environment_credentials()
         api = Api()
 
