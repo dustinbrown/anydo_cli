@@ -1,6 +1,6 @@
 import pytest
 from click.testing import CliRunner
-from anydo_cli.commands.cli import entry_point, __version__
+from anydo_cli.commands.cli import entry_point, version
 
 
 class TestCli(object):
@@ -11,7 +11,7 @@ class TestCli(object):
 
     # not in love with having to supply a subcommand. http://click.pocoo.org/5/testing/
     @pytest.mark.parametrize('args, expected_output', [
-        (['--version', 'list'], __version__),
+        (['--version', 'list'], version),
     ])
     def test_correct_version_is_printed(self, args, expected_output):
         runner = CliRunner()
