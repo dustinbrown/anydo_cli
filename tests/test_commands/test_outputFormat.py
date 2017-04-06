@@ -10,7 +10,8 @@ class TestOutputFormat(unittest.TestCase):
 
     @mock.patch('anydo_cli.lib.outputFormat.json.dumps')
     @mock.patch('anydo_cli.lib.outputFormat.yaml.dump')
-    def test_print_with_format_prints_json(self, dump, dumps):
+    @mock.patch('anydo_cli.lib.outputFormat.print')
+    def test_print_with_format_prints_json(self, print, dump, dumps):
         expected_thing_to_print = {'test': 'test'}
         print_with_format(expected_thing_to_print)
         dumps.assert_called_once_with(expected_thing_to_print)
@@ -18,7 +19,8 @@ class TestOutputFormat(unittest.TestCase):
 
     @mock.patch('anydo_cli.lib.outputFormat.json.dumps')
     @mock.patch('anydo_cli.lib.outputFormat.yaml.dump')
-    def test_print_with_format_prints_yaml(self, dump, dumps):
+    @mock.patch('anydo_cli.lib.outputFormat.print')
+    def test_print_with_format_prints_yaml(self, print, dump, dumps):
         expected_thing_to_print = {'test': 'test'}
         print_with_format(expected_thing_to_print, OutputFormat.YAML)
         dump.assert_called_once_with(expected_thing_to_print)
