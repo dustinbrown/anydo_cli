@@ -14,7 +14,7 @@ install:
   - git clone --depth=50 --branch=master https://github.com/dustinbrown/python-anydo.git ~/dustinbrown/python-anydo
   - pip install tox-travis
 script:
-  - tox
+  - tox -e travis
 after_success:
   - ls ci/
   - pip install /home/travis/dustinbrown/python-anydo
